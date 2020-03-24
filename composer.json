@@ -1,0 +1,17 @@
+{
+    "name": "werdffelynir/single-application",
+    "authors": [
+        {
+            "name": "werdffelynir",
+            "email": "werdffelynir@gmail.com"
+        }
+    ],
+    "require": {},
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/app/",
+            "App\\Server\\": "src/server/"
+        }
+    }
+}
