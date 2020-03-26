@@ -25,13 +25,13 @@ class Core
     protected $router;
 
     /** @type Response */
-    private $response;
+    protected $response;
 
     /** @type Request */
-    private $request;
+    protected $request;
 
     /** @type Template */
-    private $template;
+    protected $template;
 
     protected $listMiddleware = [];
     protected $listServices = [];
@@ -47,7 +47,9 @@ class Core
         }
         $this->response = new Response();
         $this->request = new Request();
-        $this->router = new Router();
+
+
+        $this->router = new Router(Config::get('router'));
 
         $this->routersHandler($routers);
     }
@@ -71,6 +73,7 @@ class Core
         }
 
         if (method_exists($this, 'before')) $this->{'before'}();
+
         foreach ($routers as $method => $routes) {
             foreach ($routes as $route => $callback) {
                 try {
@@ -80,8 +83,10 @@ class Core
                 }
             }
         }
-        if (method_exists($this, 'after')) $this->{'after'}();
+
         $this->router->run();
+
+        if (method_exists($this, 'after')) $this->{'after'}();
 
         for ($i = 0; $i < count($this->listServices); $i++) {
             if (class_exists($this->listServices[$i])) {
@@ -92,12 +97,10 @@ class Core
             }
         }
 
-        if ( $error = $this->router->getError() ) {
+        if ($error = $this->router->getError()) {
             if (method_exists($this, 'error')) {
                 $this->{'error'}($error);
             }
-
-            var_dump('Error:router' , $error);
         }
     }
 
@@ -119,20 +122,18 @@ class Core
      */
     private function createController($method, $route, $callback)
     {
-        if ( is_string($callback) )
-        {
+        if (is_string($callback)) {
             $className = null;
             $methodName = null;
             $classInstance = null;
-            $callbacks = explode( '@', $callback);
+            $callbacks = explode('@', $callback);
 
             if (count($callbacks) === 2) {
                 $className = isset($callbacks[0]) ? trim($callbacks[0]) : null;
                 $methodName = isset($callbacks[1]) ? trim($callbacks[1]) : null;
             }
 
-            if (class_exists($className))
-            {
+            if (class_exists($className)) {
                 $classInstance = new $className();
 
                 $classInstance->response = $this->response;
@@ -148,23 +149,14 @@ class Core
 
                 $callback = [$classInstance, $methodName];
             } else {
-                throw new CoreException('Parameter is not callable classname: "' . (print_r($callback, true)) . '" ' );
+                throw new CoreException('Parameter is not callable classname: "' . (print_r($callback, true)) . '" ');
             }
 
         } else if (!is_callable($callback)) {
             throw new CoreException('Parameter is not callable: "' . $callback . '" ');
         }
 
-        // todo: change after
-        // $this->router->map($method, $route, $callback);
-        switch ($method) {
-            case 'get':
-                $this->router->get($route, $callback);
-                break;
-            case 'post':
-                $this->router->post($route, $callback);
-                break;
-        }
+        $this->router->map($method, $route, $callback);
     }
 
 }

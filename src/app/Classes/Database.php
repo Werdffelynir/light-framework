@@ -10,9 +10,14 @@ class Database
     /** @type SPDO */
     public $spdo;
 
-    public function __construct (array $dbMain = null)
+    /** @var string  */
+    public $type;
+
+    public function __construct (array $dbConfig = null)
     {
-        $configuration =  $dbMain ? $dbMain : Config::get('db.mysql');
+        $name = Config::get('db.main');
+        $this->type = $name ? $name : "mysql";
+        $configuration = $dbConfig ? $dbConfig : Config::get("db.$name");
 
         try {
             $this->config($configuration);
@@ -28,20 +33,21 @@ class Database
             $port = $configuration['port'];
             $user = $configuration['user'];
             $pass = $configuration['pass'];
+            $dbname = $configuration['dbname'];
             try {
-                $this->connection($host, $port, $user, $pass);
+                $this->connection($host, $port, $dbname, $user, $pass);
             } catch (DatabaseException $error) {
-
+                $error->render();
             }
         } else {
             throw new DatabaseException('Configuration for connection is not exists!');
         }
     }
 
-    public function connection ($host, $port, $user, $pass)
+    public function connection ($host, $port, $dbname, $user, $pass)
     {
-        $this->spdo = new SPDO($host . ($port ? $port : ''), $user, $pass);
-
+        $dsn = "{$this->type}:host=$host". ($port ? ":$port" : "") . ";dbname=$dbname";
+        $this->spdo = new SPDO($dsn, $user, $pass);
         if ($this->spdo->getError()) {
             throw new DatabaseException('SPDO Error - ' . print_r($this->spdo->getError(), true) );
         }

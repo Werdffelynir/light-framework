@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Classes\Config;
 use App\Classes\Controller;
+use App\Classes\Database;
 use App\Classes\SPDO;
 use App\Classes\Template;
 use App\Classes\TemplateException;
@@ -14,7 +15,9 @@ class MainController extends Controller
 
     public function index()
     {
-        $this->variable('title', 'Framework light');
+        // get db connection
+        // $db = new Database();
+
         $this->view('main', [
             'header' => 'Index page',
         ]);
@@ -22,7 +25,6 @@ class MainController extends Controller
 
     public function news()
     {
-        $this->variable('title', 'Framework light');
         $this->view('main', [
             'header' => 'News page',
         ]);
@@ -30,7 +32,6 @@ class MainController extends Controller
 
     public function blog()
     {
-        $this->variable('title', 'Framework light');
         $this->view('main', [
             'header' => 'Blog page',
         ]);
@@ -38,7 +39,8 @@ class MainController extends Controller
 
     public function contacts()
     {
-        $this->variable('title', 'Framework light');
+        $this->variable('title', 'Contacts');
+
         $this->view('main', [
             'header' => 'Contacts page',
         ]);

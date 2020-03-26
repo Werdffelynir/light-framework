@@ -7,13 +7,12 @@ namespace App\Classes;
 class Model
 {
 
-    /** @type SPDO */
-    public $spd;
-    public $db;
+    /** @type Database */
+    protected $db;
 
-    public function init ()
+    public function __construct ()
     {
-
+        $this->db = new Database();
     }
 
 }

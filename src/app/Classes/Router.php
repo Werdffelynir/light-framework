@@ -50,7 +50,7 @@ class Router
     private $baseScriptName;
     private $requestUri;
     private $requestMethod;
-    private $currentRequest;
+    private $currentPath;
     private $currentGetParams;
 
     private $routerResult = null;
@@ -182,6 +182,7 @@ class Router
                     'callback'  => $callback,
                     'params'    => $callbackParams,
                     'paramsGet' => $this->currentGetParams,
+                    'path' => $this->currentPath,
                 ];
 
                 if($this->forceRun) {
@@ -231,7 +232,7 @@ class Router
 
         $toMap = strtr($toMap, $this->regReplaces);
 
-        if(preg_match("|^{$toMap}$|i", $this->currentRequest, $result)){
+        if(preg_match("|^{$toMap}$|i", $this->currentPath, $result)){
             $namedParams = [];
             $numberParams = [];
             if(count($result)>1){
@@ -276,7 +277,7 @@ class Router
             parse_str(file_get_contents('php://input'), $params);
         }
 
-        $this->currentRequest = '/' . trim($case,'/');
+        $this->currentPath = '/' . trim($case,'/');
         $this->currentGetParams = $params;
     }
 
@@ -351,6 +352,11 @@ class Router
     public function getCurrentUri()
     {
         return '/' . trim($this->requestUri, '/') ;
+    }
+
+    public function getPath()
+    {
+        return $this->currentPath;
     }
 
     public function getParams($name = null)

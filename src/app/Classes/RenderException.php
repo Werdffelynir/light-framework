@@ -16,6 +16,7 @@ trait RenderException
 
         die ("
 <style>
+html,body {background: black}
 .ce_error_wrapper{background-color: darkred; color: #e0e0e0}
 .ce_header, .ce_body{padding: 1rem; color: #e0e0e0}
 .ce_header{background-color: #640000;}

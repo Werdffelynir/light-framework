@@ -11,24 +11,30 @@ class AppCore extends Core
 
     public function before()
     {
-        // Set page for error 404
-/*        $this->router->notFount(function () {
-            echo '
-                <link rel="stylesheet" href="/css/grid.css">
-                <div class="table height-100 text-center color-red">
-                    <div>
-                        <h1>ERROR 404</h1>
-                        <h1>Page not found!</h1>
-                    </div>
-                </div>';
-        });*/
+        // Set default template views to positions
+        $this->template->setPosition('main', 'login');
+        $this->template->setPosition('sidebar', 'sidebar');
+
+        // Set default page title
+        $this->template->variable('title', 'Light PHP Framework');
     }
 
-    public function after(){}
+    public function after()
+    {
+        // Set page for error 404
+        $this->router->notFount(function () {
+            echo $this->template->render('404');
+        });
+    }
 
     public function error($error)
     {
-        var_dump( $error );
+        // Output error
+        $this->router->notFount(function () use ($error) {
+            echo $this->template->render('404', [
+                'error' => 'Houston we have problems:' . print_r($error, true)
+            ]);
+        });
     }
 
     public function middleware()
@@ -41,17 +47,15 @@ class AppCore extends Core
 
     function services()
     {
-        $route = $this->router->getResult();
+        $path = $this->router->getPath();
         $services = [];
-
-var_dump( $route );
 
         $services = [
             \App\Services\Database\DatabaseService::class,
             \App\Services\ClientData\ClientDataService::class,
         ];
 
-        if ($route === '/') {
+        if ($path === '/') {
             $services[] = \App\Services\FilesystemService::class;
         }
 

@@ -25,7 +25,7 @@ class Config
      */
     public function __call($key, $args)
     {
-        return $key === 'get' ? call_user_func(['Config', 'get'],$args) : false;
+        return $key === 'get' ? call_user_func(['Config', 'get'], $args) : false;
     }
 
     /**

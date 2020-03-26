@@ -5,8 +5,6 @@
 
 use \App\Classes\Template;
 
-$this->setPosition('sidebar', 'sidebar');
-
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -27,8 +25,7 @@ $this->setPosition('sidebar', 'sidebar');
 
 <div id="app" class="table va-child-top">
     <div id="sidebar">
-        <?php
-        Template::outPosition('sidebar') ?>
+        <?php Template::outPosition('sidebar') ?>
     </div>
     <div id="main">
         <?php Template::outPosition('main') ?>

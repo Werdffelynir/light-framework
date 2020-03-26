@@ -12,6 +12,7 @@ use \App\Classes\Template;
         <li><a href="/news">News</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contacts">Contacts</a></li>
+        <li><a href="/some-page">This route not exist</a></li>
     </ul>
 </div>
 

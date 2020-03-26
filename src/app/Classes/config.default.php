@@ -4,17 +4,16 @@ return [
 
     'app' => [
         'mode' => 'development',
-        'domain' => 'localhost',
-        'path' => '/',
     ],
 
     'db' => [
 
         'sqlite' => [
-            'host' => 'sqlite:../database/sqlite.sqlite',
+            'host' => 'localhost',
             'port' => null,
-            'user' => 'root',
-            'pass' => '',
+            'user' => null,
+            'pass' => null,
+            'dbname' => '/path/to/database/sqlite.sqlite',
         ],
 
         'mysql' => [
@@ -22,14 +21,21 @@ return [
             'port' => '3306',
             'user' => 'root',
             'pass' => '',
+            'dbname' => 'database_name',
         ],
 
         'firebird' => [
-            'host' => 'firebird:../database/wtc.fdb',
+            'host' => 'localhost',
             'port' => null,
             'user' => 'SYSDBA',
             'pass' => 'masterkey',
+            'dbname' => 'localhost:/path/to/database/DATABASE_FILE.FDB',
         ],
+    ],
+
+    'router' => [
+        'domain' => 'localhost',
+        'path' => '/',
     ],
 
     'template' => [
