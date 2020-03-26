@@ -3,12 +3,8 @@
 namespace App\Controllers;
 
 
-use App\Classes\Config;
 use App\Classes\Controller;
 use App\Classes\Database;
-use App\Classes\SPDO;
-use App\Classes\Template;
-use App\Classes\TemplateException;
 
 class MainController extends Controller
 {

@@ -6,7 +6,7 @@ namespace App\Classes;
 
 use Throwable;
 
-class SPDOException extends \Exception
+class SPDOException extends \PDOException
 {
     use RenderException;
 

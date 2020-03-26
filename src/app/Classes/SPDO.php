@@ -35,7 +35,7 @@ class SPDO extends \PDO
      * Sybase           "sybase:host=$host;dbname=DATABASE_NAME"
      * MySQL            "mysql:host=$host;dbname=DATABASE_NAME"
      * SQLite           "sqlite:my/database/path/DATABASE_FILE"
-     * Firebird         "firebird:my/database/path/DATABASE_FILE"
+     * Firebird         "firebird:dbname=localhost:/path/to/database.fdb"
      * Oracle           ""
      * </pre>
      * @param string $dsn
@@ -115,6 +115,7 @@ class SPDO extends \PDO
             }
         } catch (\PDOException $e) {
             // todo: set SPDOException
+            // throw new SPDOException('Execute Query error :' . print_r($e->getMessage(), true));
             $this->error = $e->getMessage();
             return false;
         }
