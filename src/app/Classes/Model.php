@@ -4,7 +4,7 @@
 namespace App\Classes;
 
 
-class Model
+abstract class Model
 {
 
     /** @type Database */
